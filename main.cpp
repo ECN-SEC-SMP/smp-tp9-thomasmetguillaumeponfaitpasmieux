@@ -4,6 +4,8 @@
 #include <list>
 #include <map>
 
+#include "csv.h"
+
 void ajouter_evenement(std::map<int, std::list<std::string>> &mapIntListString, const int &annee, const std::string &evenement)
 {
   mapIntListString[annee].push_back(evenement);
@@ -93,10 +95,11 @@ int main(int argc, char *argv[])
   std::cout << std::endl;
 
   // insérer un élément dans le vecteur
-  auto pos = c1.begin();
-  pos = phrase.insert(pos+1, "a");
-  pos = phrase.insert(pos+2, "tous");
-  phrase.insert();
+  // auto pos = c1.begin();
+  // pos = phrase.insert(pos + 1, "a");
+  // pos = phrase.insert(pos + 2, "tous");
+  // phrase.insert();
+
   // PARTIE 3 : LES LISTES
   std::cout << "PARTIE 3 : LES LISTES" << std::endl;
   std::list<int> listInt{89, 2, 56, 2, 6, 5, 6, 8}; // liste d'entiers de taille 8
@@ -124,5 +127,28 @@ int main(int argc, char *argv[])
 
   // PARTIE 5 : LECTURE/ÉCRITURE DE FICHIER CSV
   std::cout << "PARTIE 5 : LECTURE/ÉCRITURE DE FICHIER CSV" << std::endl;
+  CSV csv("dates.csv");
+  if (csv.lire())
+  {
+    std::cout << "Contenu du fichier CSV après lecture :" << std::endl;
+    csv.afficher();
+    csv.ajouter_evenement(2024, "Jeux Olympiques de Paris");
+    csv.ajouter_evenement(2024, "Coupe d'Europe de football");
+    csv.ajouter_evenement(2025, "Exposition Universelle de Osaka");
+    csv.ajouter_evenement(2025, "Lancement de la mission Artemis II");
+    if (csv.ecrire())
+    {
+      std::cout << "Fichier CSV mis à jour avec succès." << std::endl;
+      csv.afficher();
+    }
+    else
+    {
+      std::cerr << "Erreur lors de l'écriture du fichier CSV." << std::endl;
+    }
+  }
+  else
+  {
+    std::cerr << "Erreur lors de la lecture du fichier CSV." << std::endl;
+  }
   return 0;
 }
